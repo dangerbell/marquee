@@ -23,6 +23,10 @@ const numberOfCharacters = 18;
 // - [ ] Deploy it publicly
 // - [ ] Put ads on it for passive income
 // - [ ] Make the spaces be the same size as the letters
+// - [ ] Figure out a way to get the multiple lines to work nicely without haveing a bunch of copy/paste and state management
+// - [ ] Clean up the CSS
+// - [ ] Display it nicer and make the count more prominent
+
 
 function eventValue(event) {
   return event.target.value;
@@ -74,13 +78,19 @@ function App() {
   );
 }
 
+function FrequencyPair({character, count, key}) {
+  return (
+    <div key={key}>
+      <span style={{ fontFamily: "monospace"}}>{character == " " ? "▮" : character}</span>
+      <span style={{ marginLeft: 8, fontFamily: "monospace"}}>{count}</span>
+    </div>
+  )
+}
+
 function CharacterCounts({text}) {
   return (
     countCharacters(text).map((el, index) => (
-      <div key={index}>
-        <span style={{ fontFamily: "monospace"}}>{el[0] == " " ? "▮" : el[0]}</span>
-        <span style={{ marginLeft: 8, fontFamily: "monospace"}}>{el[1]}</span>
-      </div>
+      <FrequencyPair key={index} character={el[0]} count={el[1]} />
     ))
   );
 }

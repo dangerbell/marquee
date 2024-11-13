@@ -1,21 +1,28 @@
 import './App.css';
 import { useState } from 'react';
+import countCharacters from "./characterCount";
 
 const numberOfRows = 5;
 const numberOfCharacters = 18;
 
 // TODO: 
-// - [ ] when displaying the character count replace " " with "space" or "blank"
+// - [x] when displaying the character count replace " " with "space" or "blank"
 // - [ ] deal with all caps in a consistent way
 // - [x] make display nice for sign ouput
 // - [x] Make spaces show up as full letters
 // - [ ] make display nice on character count
-// - [ ] move character count to right hand column
-// - [ ] Do character count in a more functional way
-// - [ ] Sort character count output alphabetically
+// - [x] move character count to right hand column
+// - [x] Do character count in a more functional way
+// - [x] Sort character count output alphabetically
 // - [ ] Show empty marquee at startup
 // - [ ] Centering and justified
-// - [ ] 
+// - [x] Write a test for the character count stuff so I can experiment with other versions
+// - [x] Split the character counting code into its own file. Why do people want to bundle things into utils? Just make another file!
+// - [x] update node to get "groupBy"
+// - [ ] See if you can make a single text box that splits into rows for the marquee display
+// - [ ] Deploy it publicly
+// - [ ] Put ads on it for passive income
+// - [ ] Make the spaces be the same size as the letters
 
 function eventValue(event) {
   return event.target.value;
@@ -27,8 +34,6 @@ function App() {
   const [inputText3, setInputText3] = useState("");
   const [inputText4, setInputText4] = useState("");
   const [inputText5, setInputText5] = useState("");
-
-
 
   function onChange(setter) {
     return function wrappedSetter(event) {
@@ -63,39 +68,17 @@ function App() {
       </div>
 
       <div style={{ textAlign: "right" }}>
-        <CharacterCounts text={inputText1.toUpperCase()} />
+        <CharacterCounts text={(inputText1 + inputText2 + inputText3 + inputText4 + inputText5).toUpperCase()} />
       </div>
     </div>
   );
 }
 
 function CharacterCounts({text}) {
-  // Take a string and return a list of the characters used in the string
-  // and their frequency. The list is a set of pairs of character and count.
-  // The characters should be ordered alphabetically.
-  // countCharacters :: String -> [{Char, Number}]
-  function countCharacters(stringaling) {
-    const output = new Map();
-
-    const updateCount = (char) => {
-      if (output.has(char)) {
-        output.set(char, output.get(char) + 1);
-      } else {
-        output.set(char, 1);
-      }
-    }
-
-    for (const char of stringaling) {
-      updateCount(char);
-    }
-
-    return Array.from(output);
-  }
-
   return (
     countCharacters(text).map((el, index) => (
       <div key={index}>
-        <span style={{ fontFamily: "monospace"}}>{el[0]}</span>
+        <span style={{ fontFamily: "monospace"}}>{el[0] == " " ? "▮" : el[0]}</span>
         <span style={{ marginLeft: 8, fontFamily: "monospace"}}>{el[1]}</span>
       </div>
     ))
@@ -120,8 +103,10 @@ const MarqueeText = ({ text, size = 24, style = {} }) => {
     ...style
   };
 
-  const spaceStyle = { ...marqueeStyle, width: `${size}px` };  // Space width
+  // Make spaces take up the full width and height
+  const spaceStyle = { ...marqueeStyle, width: `14px` };
 
+  // Split the string into characters to get the right effect
   const charElements = text.split('').map((char, index) => {
     if (char === ' ') {
       return <span key={index} style={spaceStyle}>&nbsp;</span>;

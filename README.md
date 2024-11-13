@@ -68,3 +68,29 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+# Problem Statement
+It's difficult to quickly figure out if the thing you want to say fits on the sign and it's hard to count out if you have enough letters.
+
+The smoothest workflow would be just typing into a box and it shows you what the sign is going to look like and it counts up the letters so you can just alphabetically go through your box of letters and get all the things in order. Then you just write it out and put it on the sign.
+
+# Design
+- Box for typing. One big box is best, but probably one box per line is easier.
+- Display that kinda looks like the sign. White on Black text, all caps, limited line length, big spacing, right font.
+- Counter on the side that says how many of each letter you need. Just show the letters you need in alphabetical order, not all letters
+
+# Parts
+The text box needs to be mirrored to the display. So there's a listener on change. The onChange listener drives both the display and the counter. It's one way. Just the text box to the outputs. That's kinda it.
+
+# Steps
+- [x] Install create-react-app
+- [x] Generate app
+- [x] Typing box that shows the text in a label.
+- [ ] Function that counts letters
+- [ ] Make label look like marquee sign
+- [ ] Allow row and column config
+- [ ] Install prettier and make dev env nicer s
+- [ ] 
+- [ ] Need a place to work so I don't wreck my hands
+- [ ] It would be nice to not stare at a blank wall all day
+- [ ]reorganize whole life

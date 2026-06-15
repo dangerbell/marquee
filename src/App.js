@@ -3,7 +3,7 @@ import { useState } from 'react';
 import countCharacters from "./characterCount";
 
 const numberOfRows = 5;
-const numberOfCharacters = 18;
+const charactersPerRow = 18;
 
 // TODO: 
 // - [x] when displaying the character count replace " " with "space" or "blank"
@@ -29,6 +29,7 @@ const numberOfCharacters = 18;
 // - [ ] Make the column and row size configurable in the UI
 // - [ ] Make the text box limit the number of rows and characters. The rows/cols props are just box size, not limits.
 // - [ ] Drop the CRLF from the character counts
+// - [ ] Double Sided Mode
 
 
 function eventValue(event) {
@@ -73,24 +74,24 @@ function App() {
         /> */}
 
         <div>
-          <input type="text" value={inputText1} onChange={onChange(setInputText1)} maxLength={numberOfCharacters}/>
+          <input type="text" value={inputText1} onChange={onChange(setInputText1)} maxLength={charactersPerRow}/>
         </div>
         <div>
-          <input type="text" value={inputText2} onChange={onChange(setInputText2)} maxLength={numberOfCharacters}/>
+          <input type="text" value={inputText2} onChange={onChange(setInputText2)} maxLength={charactersPerRow}/>
         </div>
         <div>
-          <input type="text" value={inputText3} onChange={onChange(setInputText3)} maxLength={numberOfCharacters}/>
+          <input type="text" value={inputText3} onChange={onChange(setInputText3)} maxLength={charactersPerRow}/>
         </div>
         <div>
-          <input type="text" value={inputText4} onChange={onChange(setInputText4)} maxLength={numberOfCharacters}/>
+          <input type="text" value={inputText4} onChange={onChange(setInputText4)} maxLength={charactersPerRow}/>
         </div>
         <div>
-          <input type="text" value={inputText5} onChange={onChange(setInputText5)} maxLength={numberOfCharacters}/>
+          <input type="text" value={inputText5} onChange={onChange(setInputText5)} maxLength={charactersPerRow}/>
         </div>
       </div>
 
       <div style={{ textAlign: "right" }}>
-        <CharacterCounts text={(inputText).toUpperCase()} />
+        <CharacterCounts text={(inputText1 + inputText2 + inputText3 + inputText4 + inputText5).toUpperCase()} />
       </div>
     </div>
   );
@@ -133,15 +134,20 @@ const MarqueeText = ({ text, size = 24, style = {} }) => {
 
   // Make spaces take up the full width and height
   const spaceStyle = { ...marqueeStyle, width: `14px` };
+  
+  // Pad the list so that empty squares show up
+  // Add justification options here
+  const paddedText = text.concat( ' '.repeat(charactersPerRow - text.length) );
 
   // Split the string into characters to get the right effect
-  const charElements = text.split('').map((char, index) => {
+  const charElements = paddedText.split('').map((char, index) => {
     if (char === ' ') {
       return <span key={index} style={spaceStyle}>&nbsp;</span>;
     } else {
       return <span key={index} style={marqueeStyle}>{char}</span>
     }
   });
+
 
   return <div>{charElements}</div>;
 };

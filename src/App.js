@@ -16,18 +16,18 @@ const charactersPerRow = 18;
 // - [x] Write a test for the character count stuff so I can experiment with other versions
 // - [x] Split the character counting code into its own file. Why do people want to bundle things into utils? Just make another file!
 // - [x] update node to get "groupBy"
+// - [ ] Make the spaces be the same size as the letters
 // - [ ] deal with all caps in a consistent way
 // - [ ] make display nice on character count
 // - [ ] Centering and justified
-// - [ ] See if you can make a single text box that splits into rows for the marquee display
-// - [ ] Figure out a way to get the multiple lines to work nicely without haveing a bunch of copy/paste and state management
-// - [ ] Make the spaces be the same size as the letters
-// - [ ] Clean up the CSS
-// - [ ] Display it nicer and make the count more prominent
 // - [ ] Make the column and row size configurable in the UI
-// - [ ] Make the text box limit the number of rows and characters. The rows/cols props are just box size, not limits.
-// - [ ] Drop the CRLF from the character counts
+// - [ ] See if you can make a single text box that splits into rows for the marquee display
+//   - [ ] Figure out a way to get the multiple lines to work nicely without haveing a bunch of copy/paste and state management
+//   - [ ] Display it nicer and make the count more prominent
+//   - [ ] Make the text box limit the number of rows and characters. The rows/cols props are just box size, not limits.
+//   - [ ] Drop the CRLF from the character counts
 // - [ ] Double Sided Mode
+// - [ ] Clean up the CSS
 // - [ ] Deploy it publicly
 // - [ ] Put ads on it for passive income
 
@@ -42,6 +42,8 @@ function App() {
   const [inputText3, setInputText3] = useState("");
   const [inputText4, setInputText4] = useState("");
   const [inputText5, setInputText5] = useState("");
+
+  const [justification, setJustification] = useState("left");
 
   const [inputText, setInputText] = useState("");
 
@@ -60,11 +62,11 @@ function App() {
     <div style={{display: "flex", justifyContent: "space-between", paddingRight: "20px"}}>
       <div style={{ marginRight: 40}}>
         {/* {splitStrings.map((text, index) => <MarqueeText text={text.toUpperCase()} key={index}/>)} */}
-        <MarqueeText text={inputText1.toUpperCase()} />
-        <MarqueeText text={inputText2.toUpperCase()} />
-        <MarqueeText text={inputText3.toUpperCase()} />
-        <MarqueeText text={inputText4.toUpperCase()} />
-        <MarqueeText text={inputText5.toUpperCase()} />
+        <MarqueeText text={inputText1.toUpperCase()} justification={justification}/>
+        <MarqueeText text={inputText2.toUpperCase()} justification={justification}/>
+        <MarqueeText text={inputText3.toUpperCase()} justification={justification}/>
+        <MarqueeText text={inputText4.toUpperCase()} justification={justification}/>
+        <MarqueeText text={inputText5.toUpperCase()} justification={justification}/>
 
         {/* <textarea 
           rows={numberOfRows}
@@ -88,7 +90,12 @@ function App() {
         <div>
           <input type="text" value={inputText5} onChange={onChange(setInputText5)} maxLength={charactersPerRow}/>
         </div>
+
+        <div><button onClick={() => setJustification("left")}>Left</button></div>
+        <div><button onClick={() => setJustification("right")}>Right</button></div>
+
       </div>
+
 
       <div style={{ textAlign: "right" }}>
         <CharacterCounts text={(inputText1 + inputText2 + inputText3 + inputText4 + inputText5).toUpperCase()} />
@@ -114,7 +121,7 @@ function CharacterCounts({text}) {
   );
 }
 
-const MarqueeText = ({ text, size = 24, style = {} }) => {
+const MarqueeText = ({ text, size = 24, justification = "left", style = {} }) => {
   const marqueeStyle = {
     fontFamily: 'Consolas, monospace',
     fontSize: size,
@@ -137,12 +144,13 @@ const MarqueeText = ({ text, size = 24, style = {} }) => {
   
   // Pad the list so that empty squares show up
   // Add justification options here
-  const paddedText = text.concat( ' '.repeat(charactersPerRow - text.length) );
+  debugger;
+  const paddedText = justification == "left" ? leftJustified(text) : rightJustified(text);
 
   // Split the string into characters to get the right effect
   const charElements = paddedText.split('').map((char, index) => {
     if (char === ' ') {
-      return <span key={index} style={spaceStyle}>&nbsp;</span>;
+      return <span key={index} style={marqueeStyle}>&nbsp;</span>;
     } else {
       return <span key={index} style={marqueeStyle}>{char}</span>
     }
@@ -150,6 +158,14 @@ const MarqueeText = ({ text, size = 24, style = {} }) => {
 
 
   return <div>{charElements}</div>;
+
+  function leftJustified(text) {
+    return text.concat( ' '.repeat(charactersPerRow - text.length) );
+  }
+
+  function rightJustified(text) {
+    return ' '.repeat(charactersPerRow - text.length).concat( text );
+  }
 };
 
 export default App;

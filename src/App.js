@@ -7,29 +7,29 @@ const charactersPerRow = 18;
 
 // TODO: 
 // - [x] when displaying the character count replace " " with "space" or "blank"
-// - [ ] deal with all caps in a consistent way
 // - [x] make display nice for sign ouput
 // - [x] Make spaces show up as full letters
-// - [ ] make display nice on character count
 // - [x] move character count to right hand column
 // - [x] Do character count in a more functional way
 // - [x] Sort character count output alphabetically
-// - [ ] Show empty marquee at startup
-// - [ ] Centering and justified
+// - [x] Show empty marquee at startup
 // - [x] Write a test for the character count stuff so I can experiment with other versions
 // - [x] Split the character counting code into its own file. Why do people want to bundle things into utils? Just make another file!
 // - [x] update node to get "groupBy"
+// - [ ] deal with all caps in a consistent way
+// - [ ] make display nice on character count
+// - [ ] Centering and justified
 // - [ ] See if you can make a single text box that splits into rows for the marquee display
-// - [ ] Deploy it publicly
-// - [ ] Put ads on it for passive income
-// - [ ] Make the spaces be the same size as the letters
 // - [ ] Figure out a way to get the multiple lines to work nicely without haveing a bunch of copy/paste and state management
+// - [ ] Make the spaces be the same size as the letters
 // - [ ] Clean up the CSS
 // - [ ] Display it nicer and make the count more prominent
 // - [ ] Make the column and row size configurable in the UI
 // - [ ] Make the text box limit the number of rows and characters. The rows/cols props are just box size, not limits.
 // - [ ] Drop the CRLF from the character counts
 // - [ ] Double Sided Mode
+// - [ ] Deploy it publicly
+// - [ ] Put ads on it for passive income
 
 
 function eventValue(event) {

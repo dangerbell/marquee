@@ -26,11 +26,20 @@ const charactersPerRow = 18;
 //   - [ ] Display it nicer and make the count more prominent
 //   - [ ] Make the text box limit the number of rows and characters. The rows/cols props are just box size, not limits.
 //   - [ ] Drop the CRLF from the character counts
+// - [ ] justification icons
+// - [ ] separate justification for each line?
+// - [ ] styling
+//   - [ ] background
+//   - [ ] centering
+//   - [ ] sidebar for character count
+//   - [ ] bigger text inputs?
+//   - [ ] "nicer"
+
+
 // - [ ] Double Sided Mode
 // - [ ] Clean up the CSS
 // - [ ] Deploy it publicly
 // - [ ] Put ads on it for passive income
-
 
 function eventValue(event) {
   return event.target.value;

@@ -92,6 +92,7 @@ function App() {
         </div>
 
         <div><button onClick={() => setJustification("left")}>Left</button></div>
+        <div><button onClick={() => setJustification("centre")}>Centre</button></div>
         <div><button onClick={() => setJustification("right")}>Right</button></div>
 
       </div>
@@ -144,8 +145,7 @@ const MarqueeText = ({ text, size = 24, justification = "left", style = {} }) =>
   
   // Pad the list so that empty squares show up
   // Add justification options here
-  debugger;
-  const paddedText = justification == "left" ? leftJustified(text) : rightJustified(text);
+  const paddedText = justification == "left" ? leftJustified(text) : justification == "centre" ? centre(text) : rightJustified(text);
 
   // Split the string into characters to get the right effect
   const charElements = paddedText.split('').map((char, index) => {
@@ -165,6 +165,12 @@ const MarqueeText = ({ text, size = 24, justification = "left", style = {} }) =>
 
   function rightJustified(text) {
     return ' '.repeat(charactersPerRow - text.length).concat( text );
+  }
+
+  function centre(text) {
+    const front = ' '.repeat(Math.floor((charactersPerRow - text.length) / 2));
+    const back = ' '.repeat(charactersPerRow - (front.length + text.length));
+    return front.concat(text).concat(back);
   }
 };
 

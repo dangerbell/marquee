@@ -2,8 +2,8 @@ import './App.css';
 import { useState } from 'react';
 import countCharacters from "./characterCount";
 
-const numberOfRows = 5;
-const charactersPerRow = 18;
+const NUMBER_OF_ROWS_DEFAULT = 5;
+const CHARACTERS_PER_ROW_DEFAULT = 18;
 
 // TODO: 
 // - [x] when displaying the character count replace " " with "space" or "blank"
@@ -34,8 +34,6 @@ const charactersPerRow = 18;
 //   - [ ] sidebar for character count
 //   - [ ] bigger text inputs?
 //   - [ ] "nicer"
-
-
 // - [ ] Double Sided Mode
 // - [ ] Clean up the CSS
 // - [ ] Deploy it publicly
@@ -46,6 +44,9 @@ function eventValue(event) {
 }
 
 function App() {
+  const [numberOfRows, setNumberOfRows] = useState(NUMBER_OF_ROWS_DEFAULT);
+  const [charactersPerRow, setCharactersPerRow] = useState(CHARACTERS_PER_ROW_DEFAULT);
+
   const [inputText1, setInputText1] = useState("");
   const [inputText2, setInputText2] = useState("");
   const [inputText3, setInputText3] = useState("");
@@ -68,51 +69,57 @@ function App() {
   }
 
   return (
-    <div style={{display: "flex", justifyContent: "space-between", paddingRight: "20px"}}>
-      <div style={{ marginRight: 40 }}>
-        {/* {splitStrings.map((text, index) => <MarqueeText text={text.toUpperCase()} key={index}/>)} */}
-        <MarqueeText text={inputText1.toUpperCase()} justification={justification}/>
-        <MarqueeText text={inputText2.toUpperCase()} justification={justification}/>
-        <MarqueeText text={inputText3.toUpperCase()} justification={justification}/>
-        <MarqueeText text={inputText4.toUpperCase()} justification={justification}/>
-        <MarqueeText text={inputText5.toUpperCase()} justification={justification}/>
-
-        {/* <textarea 
-          rows={numberOfRows}
-          cols={numberOfCharacters}
-          value={inputText}
-          onChange={onChange(setInputText)}
-        /> */}
-
-        <div>
-          <input type="text" value={inputText1} onChange={onChange(setInputText1)} maxLength={charactersPerRow}/>
-        </div>
-        <div>
-          <input type="text" value={inputText2} onChange={onChange(setInputText2)} maxLength={charactersPerRow}/>
-        </div>
-        <div>
-          <input type="text" value={inputText3} onChange={onChange(setInputText3)} maxLength={charactersPerRow}/>
-        </div>
-        <div>
-          <input type="text" value={inputText4} onChange={onChange(setInputText4)} maxLength={charactersPerRow}/>
-        </div>
-        <div>
-          <input type="text" value={inputText5} onChange={onChange(setInputText5)} maxLength={charactersPerRow}/>
-        </div>
-
-        <div><button onClick={() => setJustification("left")}>Left</button></div>
-        <div><button onClick={() => setJustification("centre")}>Centre</button></div>
-        <div><button onClick={() => setJustification("right")}>Right</button></div>
-
+    <div>
+      <div>
+        <input type="text" value ={charactersPerRow} onChange={onChange(setCharactersPerRow)}/> X <input type="text" value ={numberOfRows} onChange={onChange(setNumberOfRows)}/>
       </div>
 
-      <div style={{
-        textAlign: "right",
-        fontFamily: 'Consolas, monospace',
-        fontSize: "24px",
-        fontWeight: 'bold',
-       }}>
-        <CharacterCounts text={(inputText1 + inputText2 + inputText3 + inputText4 + inputText5).toUpperCase()} />
+      <div style={{display: "flex", justifyContent: "space-between", paddingRight: "20px"}}>
+        <div style={{ marginRight: 40 }}>
+          {/* {splitStrings.map((text, index) => <MarqueeText text={text.toUpperCase()} key={index}/>)} */}
+          <MarqueeText text={inputText1.toUpperCase()} justification={justification}/>
+          <MarqueeText text={inputText2.toUpperCase()} justification={justification}/>
+          <MarqueeText text={inputText3.toUpperCase()} justification={justification}/>
+          <MarqueeText text={inputText4.toUpperCase()} justification={justification}/>
+          <MarqueeText text={inputText5.toUpperCase()} justification={justification}/>
+
+          {/* <textarea 
+            rows={numberOfRows}
+            cols={numberOfCharacters}
+            value={inputText}
+            onChange={onChange(setInputText)}
+          /> */}
+
+          <div>
+            <input type="text" value={inputText1} onChange={onChange(setInputText1)} maxLength={CHARACTERS_PER_ROW_DEFAULT}/>
+          </div>
+          <div>
+            <input type="text" value={inputText2} onChange={onChange(setInputText2)} maxLength={CHARACTERS_PER_ROW_DEFAULT}/>
+          </div>
+          <div>
+            <input type="text" value={inputText3} onChange={onChange(setInputText3)} maxLength={CHARACTERS_PER_ROW_DEFAULT}/>
+          </div>
+          <div>
+            <input type="text" value={inputText4} onChange={onChange(setInputText4)} maxLength={CHARACTERS_PER_ROW_DEFAULT}/>
+          </div>
+          <div>
+            <input type="text" value={inputText5} onChange={onChange(setInputText5)} maxLength={CHARACTERS_PER_ROW_DEFAULT}/>
+          </div>
+
+          <div><button onClick={() => setJustification("left")}>Left</button></div>
+          <div><button onClick={() => setJustification("centre")}>Centre</button></div>
+          <div><button onClick={() => setJustification("right")}>Right</button></div>
+
+        </div>
+
+        <div style={{
+          textAlign: "right",
+          fontFamily: 'Consolas, monospace',
+          fontSize: "24px",
+          fontWeight: 'bold',
+        }}>
+          <CharacterCounts text={(inputText1 + inputText2 + inputText3 + inputText4 + inputText5).toUpperCase()} />
+        </div>
       </div>
     </div>
   );
@@ -166,16 +173,16 @@ const MarqueeText = ({ text, size = 24, justification = "left", style = {} }) =>
   return <div>{charElements}</div>;
 
   function leftJustified(text) {
-    return text.concat( ' '.repeat(charactersPerRow - text.length) );
+    return text.concat( ' '.repeat(CHARACTERS_PER_ROW_DEFAULT - text.length) );
   }
 
   function rightJustified(text) {
-    return ' '.repeat(charactersPerRow - text.length).concat( text );
+    return ' '.repeat(CHARACTERS_PER_ROW_DEFAULT - text.length).concat( text );
   }
 
   function centre(text) {
-    const front = ' '.repeat(Math.floor((charactersPerRow - text.length) / 2));
-    const back = ' '.repeat(charactersPerRow - (front.length + text.length));
+    const front = ' '.repeat(Math.floor((CHARACTERS_PER_ROW_DEFAULT - text.length) / 2));
+    const back = ' '.repeat(CHARACTERS_PER_ROW_DEFAULT - (front.length + text.length));
     return front.concat(text).concat(back);
   }
 };

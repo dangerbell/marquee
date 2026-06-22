@@ -47,7 +47,7 @@ function App() {
 
   const [inputText, setInputText] = useState("");
 
-  const splitStrings = inputText.split(/[\r\n]+/)
+  // const splitStrings = inputText.split(/[\r\n]+/)
 
   // instead of 5 things, do a single text box and split on crlf.
   // the display will be driven by the number of split rows
@@ -60,7 +60,7 @@ function App() {
 
   return (
     <div style={{display: "flex", justifyContent: "space-between", paddingRight: "20px"}}>
-      <div style={{ marginRight: 40}}>
+      <div style={{ marginRight: 40 }}>
         {/* {splitStrings.map((text, index) => <MarqueeText text={text.toUpperCase()} key={index}/>)} */}
         <MarqueeText text={inputText1.toUpperCase()} justification={justification}/>
         <MarqueeText text={inputText2.toUpperCase()} justification={justification}/>
@@ -96,7 +96,6 @@ function App() {
         <div><button onClick={() => setJustification("right")}>Right</button></div>
 
       </div>
-
 
       <div style={{
         textAlign: "right",

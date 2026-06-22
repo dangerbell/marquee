@@ -16,10 +16,10 @@ const charactersPerRow = 18;
 // - [x] Write a test for the character count stuff so I can experiment with other versions
 // - [x] Split the character counting code into its own file. Why do people want to bundle things into utils? Just make another file!
 // - [x] update node to get "groupBy"
-// - [ ] Make the spaces be the same size as the letters
+// - [x] Make the spaces be the same size as the letters
+// - [x] Centering and justified
 // - [ ] deal with all caps in a consistent way
 // - [ ] make display nice on character count
-// - [ ] Centering and justified
 // - [ ] Make the column and row size configurable in the UI
 // - [ ] See if you can make a single text box that splits into rows for the marquee display
 //   - [ ] Figure out a way to get the multiple lines to work nicely without haveing a bunch of copy/paste and state management
@@ -98,7 +98,12 @@ function App() {
       </div>
 
 
-      <div style={{ textAlign: "right" }}>
+      <div style={{
+        textAlign: "right",
+        fontFamily: 'Consolas, monospace',
+        fontSize: "24px",
+        fontWeight: 'bold',
+       }}>
         <CharacterCounts text={(inputText1 + inputText2 + inputText3 + inputText4 + inputText5).toUpperCase()} />
       </div>
     </div>
@@ -131,20 +136,14 @@ const MarqueeText = ({ text, size = 24, justification = "left", style = {} }) =>
     color: '#fff',
     backgroundColor: '#000',
     display: 'inline-block',
-    // border: `1px solid white`,
     marginRight: `1px`,
     padding: 8,
-    // letterSpacing: `1px`,  // Adjustable letter spacing
     verticalAlign: "top",
     lineHeight: `${size}px`,
     ...style
   };
-
-  // Make spaces take up the full width and height
-  const spaceStyle = { ...marqueeStyle, width: `14px` };
   
-  // Pad the list so that empty squares show up
-  // Add justification options here
+  // Pad text based on justification option
   const paddedText = justification == "left" ? leftJustified(text) : justification == "centre" ? centre(text) : rightJustified(text);
 
   // Split the string into characters to get the right effect
@@ -155,7 +154,6 @@ const MarqueeText = ({ text, size = 24, justification = "left", style = {} }) =>
       return <span key={index} style={marqueeStyle}>{char}</span>
     }
   });
-
 
   return <div>{charElements}</div>;
 

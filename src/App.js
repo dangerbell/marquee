@@ -18,9 +18,10 @@ const CHARACTERS_PER_ROW_DEFAULT = 18;
 // - [x] update node to get "groupBy"
 // - [x] Make the spaces be the same size as the letters
 // - [x] Centering and justified
+// - [ ] Make the row size configurable in the UI
+// - [ ] Make the column size configurable in the UI
 // - [ ] deal with all caps in a consistent way
 // - [ ] make display nice on character count
-// - [ ] Make the column and row size configurable in the UI
 // - [ ] See if you can make a single text box that splits into rows for the marquee display
 //   - [ ] Figure out a way to get the multiple lines to work nicely without haveing a bunch of copy/paste and state management
 //   - [ ] Display it nicer and make the count more prominent
@@ -77,11 +78,11 @@ function App() {
       <div style={{display: "flex", justifyContent: "space-between", paddingRight: "20px"}}>
         <div style={{ marginRight: 40 }}>
           {/* {splitStrings.map((text, index) => <MarqueeText text={text.toUpperCase()} key={index}/>)} */}
-          <MarqueeText text={inputText1.toUpperCase()} justification={justification}/>
-          <MarqueeText text={inputText2.toUpperCase()} justification={justification}/>
-          <MarqueeText text={inputText3.toUpperCase()} justification={justification}/>
-          <MarqueeText text={inputText4.toUpperCase()} justification={justification}/>
-          <MarqueeText text={inputText5.toUpperCase()} justification={justification}/>
+          <MarqueeText text={inputText1.toUpperCase()} justification={justification} charactersPerRow={charactersPerRow}/>
+          <MarqueeText text={inputText2.toUpperCase()} justification={justification} charactersPerRow={charactersPerRow}/>
+          <MarqueeText text={inputText3.toUpperCase()} justification={justification} charactersPerRow={charactersPerRow}/>
+          <MarqueeText text={inputText4.toUpperCase()} justification={justification} charactersPerRow={charactersPerRow}/>
+          <MarqueeText text={inputText5.toUpperCase()} justification={justification} charactersPerRow={charactersPerRow}/>
 
           {/* <textarea 
             rows={numberOfRows}
@@ -91,19 +92,19 @@ function App() {
           /> */}
 
           <div>
-            <input type="text" value={inputText1} onChange={onChange(setInputText1)} maxLength={CHARACTERS_PER_ROW_DEFAULT}/>
+            <input type="text" value={inputText1} onChange={onChange(setInputText1)} maxLength={charactersPerRow}/>
           </div>
           <div>
-            <input type="text" value={inputText2} onChange={onChange(setInputText2)} maxLength={CHARACTERS_PER_ROW_DEFAULT}/>
+            <input type="text" value={inputText2} onChange={onChange(setInputText2)} maxLength={charactersPerRow}/>
           </div>
           <div>
-            <input type="text" value={inputText3} onChange={onChange(setInputText3)} maxLength={CHARACTERS_PER_ROW_DEFAULT}/>
+            <input type="text" value={inputText3} onChange={onChange(setInputText3)} maxLength={charactersPerRow}/>
           </div>
           <div>
-            <input type="text" value={inputText4} onChange={onChange(setInputText4)} maxLength={CHARACTERS_PER_ROW_DEFAULT}/>
+            <input type="text" value={inputText4} onChange={onChange(setInputText4)} maxLength={charactersPerRow}/>
           </div>
           <div>
-            <input type="text" value={inputText5} onChange={onChange(setInputText5)} maxLength={CHARACTERS_PER_ROW_DEFAULT}/>
+            <input type="text" value={inputText5} onChange={onChange(setInputText5)} maxLength={charactersPerRow}/>
           </div>
 
           <div><button onClick={() => setJustification("left")}>Left</button></div>
@@ -142,7 +143,7 @@ function CharacterCounts({text}) {
   );
 }
 
-const MarqueeText = ({ text, size = 24, justification = "left", style = {} }) => {
+const MarqueeText = ({ text, size = 24, justification = "left", charactersPerRow = CHARACTERS_PER_ROW_DEFAULT, style = {} }) => {
   const marqueeStyle = {
     fontFamily: 'Consolas, monospace',
     fontSize: size,
@@ -173,17 +174,29 @@ const MarqueeText = ({ text, size = 24, justification = "left", style = {} }) =>
   return <div>{charElements}</div>;
 
   function leftJustified(text) {
-    return text.concat( ' '.repeat(CHARACTERS_PER_ROW_DEFAULT - text.length) );
+    if (charactersPerRow - text.length > 0) {
+      return text.concat( ' '.repeat(charactersPerRow - text.length) );
+    } else {
+      return text;
+    }
   }
 
   function rightJustified(text) {
-    return ' '.repeat(CHARACTERS_PER_ROW_DEFAULT - text.length).concat( text );
+    if (charactersPerRow - text.length > 0) {
+      return ' '.repeat(charactersPerRow - text.length).concat( text );
+    } else {
+      return text;
+    }
   }
 
   function centre(text) {
-    const front = ' '.repeat(Math.floor((CHARACTERS_PER_ROW_DEFAULT - text.length) / 2));
-    const back = ' '.repeat(CHARACTERS_PER_ROW_DEFAULT - (front.length + text.length));
-    return front.concat(text).concat(back);
+    if (charactersPerRow - text.length > 0) {
+      const front = ' '.repeat(Math.floor((charactersPerRow - text.length) / 2));
+      const back = ' '.repeat(charactersPerRow - (front.length + text.length));
+      return front.concat(text).concat(back);
+    } else {
+      return text;
+    }
   }
 };
 

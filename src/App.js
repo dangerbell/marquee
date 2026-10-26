@@ -183,7 +183,9 @@ const MarqueeText = ({ text, size = 24, justification = "left", charactersPerRow
 
   function rightJustified(text) {
     if (charactersPerRow - text.length > 0) {
-      return ' '.repeat(charactersPerRow - text.length).concat( text );
+      return ' '.
+        repeat(charactersPerRow - text.length).
+        concat( text );
     } else {
       return text;
     }
